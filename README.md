@@ -27,7 +27,7 @@ Place the datasets in the datasets folder.
 
 ### Sequential Task Training
 ```
-python train_sequential.py --learning_rate .005 --dataset ../datasets/DomainNet/sketch --experiment_name ./results/sketch
+python train_sequential.py --dataset ../datasets/DomainNet/sketch --experiment_name ./results/sketch
 ```
 
 
