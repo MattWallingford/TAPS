@@ -3,14 +3,14 @@ import torchvision.models as models
 import torchvision
 import os
 from torch.optim.lr_scheduler import StepLR, CosineAnnealingLR
-from utils import AverageMeter
+from utils import AverageMeter, get_pretrained_weights
 from tqdm import tqdm
 import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
 from torch.utils.tensorboard import SummaryWriter
 import numpy as np
-from models.freeze_net import resnet50, resnet101, resnet34
+from models.taps_net import resnet50, resnet101, resnet34
 import datasets
 from datasets import Scale
 import timm
@@ -52,14 +52,13 @@ def eval(val_loader, model, criterion, device):
 
     losses = AverageMeter('Loss', ':.4e')
     top1 = AverageMeter('Acc@1', ':6.2f')
-
     model.eval()
     with torch.no_grad():
         for i, (x, label) in enumerate(val_loader):
             x = x.to(device)
             label = label.to(device)
-
             # compute output
+
             output = model(x)
             loss = criterion(output, label)
 
@@ -67,9 +66,7 @@ def eval(val_loader, model, criterion, device):
             acc1 = accuracy(output, label, topk=(1,))
             losses.update(loss.item(), x.size(0))
             top1.update(acc1[0], x.size(0))
-
     return losses.avg, 100 - top1.avg.item()
-
 
 def accuracy(output, target, topk=(1,)):
     """Computes the accuracy over the k top predictions for the specified values of k"""
@@ -86,28 +83,6 @@ def accuracy(output, target, topk=(1,)):
             correct_k = correct[:k].view(-1).float().sum(0, keepdim=True)
             res.append(correct_k.mul_(100.0 / batch_size))
         return res
-
-
-def adjust_learning_rate(optimizer, epoch, init_lr, lr_decay_epoch):
-    """Step based learning rate schedule sets the learning rate to the initial LR decayed by 10 in a given schedule"""
-
-    lr_step_counter = 0
-    for epoch_step in lr_decay_epoch:
-        if epoch > epoch_step:
-            lr_step_counter += 1
-
-    lr = init_lr * (0.1 ** lr_step_counter)
-
-    for param_group in optimizer.param_groups:
-        param_group['lr'] = lr
-
-    return lr
-
-def get_pytorch_model(num_classes, opts:options):
-    model = models.__dict__[opts.args.arch](pretrained = opts.args.pretrained)
-    embedding_dim = model.fc.in_features
-    model.fc = nn.Linear(embedding_dim, num_classes)
-    return model
 
 
 def _finetune(model, train_loader, val_loader, opts: options):
@@ -188,17 +163,12 @@ def _finetune(model, train_loader, val_loader, opts: options):
 
 if __name__ == "__main__":
     opts = options()
-    query_expr = opts.args.dataset
-    if opts.args.subsample:
-        query_expr += '.subuniform(' + str(opts.args.subsample) + ')'
     if opts.args.Vit:
         normalize = transforms.Normalize(mean=[0.5, 0.5, 0.5],
                                      std=[0.5, 0.5, 0.5])
-
     else:
         normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
-
     test_transform = transforms.Compose([
         transforms.Resize(224),
         transforms.CenterCrop(224),
@@ -212,43 +182,41 @@ if __name__ == "__main__":
         transforms.ToTensor(),
         normalize,
     ])
-    
-    train_path = '../../DomainNet/' + opts.args.dataset + '/train'
-    test_path = '../../DomainNet/' + opts.args.dataset + '/test'
+    train_path = opts.args.dataset + '/train'
+    test_path = opts.args.dataset + '/test'
     train_dataset = torchvision.datasets.ImageFolder(train_path, transform = train_transform)
     val_dataset = torchvision.datasets.ImageFolder(test_path, transform = test_transform)
     num_classes = len(train_dataset.classes)
-    print('number of classes: ', num_classes)
+    print('Number of classes: ', num_classes)
     train_loader = torch.utils.data.DataLoader(
         train_dataset, batch_size=opts.args.batch_size, shuffle=True,
         num_workers=opts.args.workers, pin_memory=True)
-
     val_loader = torch.utils.data.DataLoader(
         val_dataset, batch_size=opts.args.batch_size, shuffle=True,
         num_workers=opts.args.workers, pin_memory=True)
-        
  
     if opts.args.Vit:
         model = timm.create_model('vit_base_patch16_224', pretrained=True, num_classes= num_classes)
     else:
-        print('loading r34')
         model = resnet34()
-        if opts.args.joint:
-            #Change this model path depending on which model you want to load
+        if opts.args.model_path:
+            print('loading model from: {}'.format(opts.args.model_path))
             model_path = '../results/multihead_DN/.005/model-0060.pth'
+            #model_path = opts.args.model_path
             state_dict = torch.load(model_path)
             del state_dict['fc.weight']
             del state_dict['fc.bias']
         else:
-            #Change this model path depending on which model you want to load
-            model_path = 'resnet-34.pth'
+            print('Loading pytorch pretrained model')
+            if not(os.path.exists(opts.args.model_type + '.pth')):
+                get_pretrained_weights(opts.args.model_type)
+            model_path = opts.args.model_type + '.pth'
             state_dict = torch.load(model_path)
 
-        state_dict = torch.load(model_path)
-        model = nn.DataParallel(model)
         model.load_state_dict(state_dict, strict = False)
-        embedding_dim = model.module.fc.in_features
-        model.module.fc = nn.Linear(embedding_dim, num_classes)
+        embedding_dim = model.fc.in_features
+        model.fc = nn.Linear(embedding_dim, num_classes)
+        model = nn.DataParallel(model)
 
     device = torch.device(opts.args.gpu)
     model = model.to(device)

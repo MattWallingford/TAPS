@@ -10,7 +10,7 @@ import torch.nn as nn
 import torchvision.transforms as transforms
 from torch.utils.tensorboard import SummaryWriter
 import numpy as np
-from models.freeze_net import resnet50, resnet101
+from models.taps_net import resnet50, resnet101
 import datasets
 from datasets import Scale
 import timm

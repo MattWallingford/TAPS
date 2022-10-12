@@ -14,7 +14,9 @@ from models.multihead_net import resnet34 as mh_resnet34
 from dataloaders.DomainNet import MultiDomainSampler
 import torchvision
 
-dataset_names = ['sketch', 'clipart', 'infograph', 'painting', 'quickdraw', 'real']
+DATASET_NAMES = ['sketch', 'clipart', 'infograph', 'painting', 'quickdraw', 'real']
+CLASS_SIZES = [345, 345, 345, 345, 345, 345]
+
 
 def train_standard_multi(train_loader, model, criterion, optimizer, device, opts, epoch, num_tasks):
     losses = []
@@ -127,28 +129,6 @@ def accuracy(output, target, topk=(1,)):
         return res
 
 
-def adjust_learning_rate(optimizer, epoch, init_lr, lr_decay_epoch):
-    """Step based learning rate schedule sets the learning rate to the initial LR decayed by 10 in a given schedule"""
-    #lr_decay_epoch = [int(i) for i in lr_decay_epoch.split(',')]
-
-    lr_step_counter = 0
-    for epoch_step in lr_decay_epoch:
-        if epoch > epoch_step:
-            lr_step_counter += 1
-
-    lr = init_lr * (0.1 ** lr_step_counter)
-
-    for param_group in optimizer.param_groups:
-        param_group['lr'] = lr
-
-    return lr
-
-def get_pytorch_model(num_classes, opts:options):
-    model = models.__dict__[opts.args.arch](pretrained = opts.args.pretrained)
-    embedding_dim = model.fc.in_features
-    model.fc = nn.Linear(embedding_dim, num_classes)
-    return model
-
 
 def _finetune(model, train_loader, val_loader, opts: options, task_num):
     '''finetune a model on a dataset with given hyperparameters
@@ -203,7 +183,7 @@ def _finetune(model, train_loader, val_loader, opts: options, task_num):
         if epoch % opts.args.eval_epochs == 0:
             val_loss, val_errs = test_standard_multi(val_loader, model, criterion, device, task_num)
             val_errs_total.append(val_errs)
-            for j, i in enumerate(dataset_names):
+            for j, i in enumerate(DATASET_NAMES):
                 writer.add_scalar('Validation Error_' + i, val_errs[j], epoch)
 
             state = {
@@ -253,9 +233,9 @@ if __name__ == "__main__":
     train_sets = []
     val_sets = []
     
-    for j, dataset_name in enumerate(dataset_names):
-        train_path = '../../DomainNet/' + dataset_name + '/train'
-        test_path = '../../DomainNet/' + dataset_name + '/test'
+    for j, dataset_name in enumerate(DATASET_NAMES):
+        train_path = opts.args.data_root + dataset_name + '/train'
+        test_path = opts.args.data_root + dataset_name + '/test'
         train_dataset = torchvision.datasets.ImageFolder(train_path, transform = train_transform)
         val_dataset = torchvision.datasets.ImageFolder(test_path, transform = test_transform)
         train_dataset.samples = [(x, (label, j)) for x, label in train_dataset.samples]
@@ -295,10 +275,10 @@ if __name__ == "__main__":
     model.load_state_dict(state_dict, strict = False)
     
 
-    task_sizes = [345, 345, 345, 345, 345, 345]
+    CLASS_SIZES = [345, 345, 345, 345, 345, 345]
     model.set_task_partitions(task_sizes)
     device = torch.device(opts.args.gpu)
     model = model.to(device)
     if opts.args.multi_gpu:
         model = nn.DataParallel(model)
-    _finetune(model, train_loader, val_loader, opts, len(dataset_names))
+    _finetune(model, train_loader, val_loader, opts, len(DATASET_NAMES))
