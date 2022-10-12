@@ -24,15 +24,23 @@ Place the datasets in the datasets folder.
 ## Training
 
 ### Training Options
-
-### Sequential Task Training
 ```
-python train_sequential.py --dataset ../datasets/DomainNet/sketch --experiment_name ./results/sketch
+--
+--lam - The sparsity coefficient. Larger lam results in fewer layers being tuned (λ in the paper).
+--dataset - relative path to dataset
+--lr - Learning rate 
+--model_path - relative path to pretrained model. Default will use the pytorch pretrained model.
+```
+
+### Sequential TAPS Training
+Train a pretrained network with TAPS on the sketch dataset. 
+```
+python train_sequential.py --dataset ../datasets/DomainNet/sketch --experiment_name ./results/sketch --multi_gpu --model_type resnet34
 ```
 
 
 
-### Joint Multi-Task Training
+### Joint TAPS Training
 
 
 ## Evaluation
