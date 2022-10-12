@@ -11,7 +11,7 @@ from torch.utils.tensorboard import SummaryWriter
 import numpy as np
 from models.freeze_net import resnet50
 from models.multihead_net import resnet34 as mh_resnet34
-from Data.DomainNet import MultiDomainSampler
+from dataloaders.DomainNet import MultiDomainSampler
 import torchvision
 
 dataset_names = ['sketch', 'clipart', 'infograph', 'painting', 'quickdraw', 'real']
