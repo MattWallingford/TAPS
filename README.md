@@ -24,7 +24,7 @@ Place the datasets in the datasets folder.
 ## Training
 
 ### Training Arguments
-Relevant command line arguments that you may want to adjust. For the full list of options see options.py. Arguments for experiments are logged in settings.txt in their respective folder. 
+Command line arguments that you may want to adjust. For the full list of options see options.py. Arguments for experiments are logged in settings.txt in their respective folder. 
 
 ```
 
