@@ -60,7 +60,7 @@ Command line arguments that you may want to adjust. For the full list of options
 Fine-tune a pretrained ResNet34 with TAPS on the sketch dataset. 
 ```
 python train_sequential.py --dataset ../datasets/DomainNet/sketch --experiment_name \
-./results/sketch --multi_gpu --model_type resnet34
+./results/DN_sketch --multi_gpu --model_type resnet34
 ```
 
 Fine-tune a pretrained ResNet50 with TAPS on the CUBS dataset. 
