@@ -77,7 +77,7 @@ python train_sequential.py --dataset ../datasets/CUBS_cropped --experiment_name 
 ## Evaluation
 
 ### Tensorboard
-To view results run ```tensorboard --logdir=results```
+To view results run ```tensorboard --logdir=results``` and navigate to http://localhost:6006/.
 
 We log validation error/training loss/training error/percentage of layers tuned.
 
