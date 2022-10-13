@@ -80,9 +80,9 @@ python train_joint.py --dataset ../datasets/DomainNet/ --experiment_name \
 ./results/DN_joint --multi_gpu --model_type resnet34
 ```
 
-Next, load the pretrained model from the previous step and run sequential TAPS. This is the efficient version of joint TAPS which has constant memory requirements during training. 
+Next, load the pretrained model from the previous step and run sequential TAPS. This is the efficient variant of joint TAPS which has constant memory requirements during training. To train on all 6 DomainNet datasets, change out ```--dataset ../datasets/DomainNet/infograph``` for the other datasets. 
 ```
-python train_sequential.py --dataset ../datasets/DomainNet/sketch --experiment_name \
+python train_sequential.py --dataset ../datasets/DomainNet/infograph --experiment_name \
 ./results/DN_sketch --multi_gpu --model_type resnet34 --model_path ./results/DN_joint/model_best.pth
 ```
 
