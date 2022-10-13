@@ -29,6 +29,9 @@ The 6 DomainNet datasets can be downloaded from [here](http://ai.bu.edu/M3SDA/).
     ├── infograph
         ├── train
         ├── test
+    .
+    .
+    .
     ├── clipart
         ├── train
         ├── test
