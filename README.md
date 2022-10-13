@@ -14,7 +14,7 @@ Task Adaptive Parameter Sharing (TAPS) is a general method for tuning a base mod
 
 ### Requirements
 Run ```pip install -r requirements.txt```.
-The main packages required are pytorch, torchvision, numpy, timm, tqdm, and tensorboard.
+The main packages required are pytorch, torchvision, timm, tqdm, and tensorboard.
 ### Datasets
 
 **ImageNet-to-Sketch**
