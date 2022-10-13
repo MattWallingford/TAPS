@@ -74,7 +74,17 @@ python train_sequential.py --dataset ../datasets/cubs_cropped --experiment_name 
 
 
 ### Joint TAPS Training
+To run the joint version of TAPS, first train a shared network on all 6 datasets:
+```
+python train_joint.py --dataset ../datasets/DomainNet/ --experiment_name \
+./results/DN_joint --multi_gpu --model_type resnet34
+```
 
+Next, load the pretrained model from the previous step and run sequential TAPS. This is the efficient version of joint TAPS which has constant memory requirements during training. 
+```
+python train_sequential.py --dataset ../datasets/DomainNet/sketch --experiment_name \
+./results/DN_sketch --multi_gpu --model_type resnet34 --model_path ./results/DN_joint/model_best.pth
+```
 
 ## Evaluation
 
