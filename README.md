@@ -83,3 +83,5 @@ We log validation error/training loss/training error/percentage of layers tuned.
 
 
 ### Visualizing Modified Layers
+
+We provide the visualize_taps.ipynb for visualizing which layers were adapted for a TAPS trained model. 
