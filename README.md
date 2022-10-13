@@ -23,14 +23,17 @@ Place the datasets in the datasets folder.
 
 ## Training
 
-### Training Options
+### Training Arguments
+Relevant command line arguments that you may want to adjust. For the full list of options see options.py. To see the arguments for a particular experiment see the settings.txt file in the respective folder. 
+
 ```
+
 --
---  **lam** - The sparsity coefficient. Larger lam results in fewer layers being tuned (λ in the paper).
+--lam - The sparsity coefficient. Larger lam results in fewer layers being tuned (λ in the paper).
 --dataset - relative path to dataset
---model_type - 
+--model_type - Network architecture. Currently supports ResNet34 and ResNet50. Support for VIT and all convolution networks coming soon. 
 --lr - Learning rate 
---model_path - relative path to pretrained model. Default will use the pytorch pretrained model.
+--model_path - Relative path to a pretrained model. Default option uses the pytorch pretrained models.
 ```
 
 ### Sequential TAPS Training
