@@ -2,18 +2,19 @@ from options import options
 import torchvision.models as models
 import os
 from torch.optim.lr_scheduler import StepLR, CosineAnnealingLR
-from utils import AverageMeter
+from utils import AverageMeter, get_pretrained_weights, load_model
 from tqdm import tqdm
 import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
 from torch.utils.tensorboard import SummaryWriter
 import numpy as np
-from models.freeze_net import resnet50
-from models.multihead_net import resnet34 as mh_resnet34
+from models.multihead_net import resnet34
 from dataloaders.DomainNet import MultiDomainSampler
 import torchvision
 
+#Names and number of classes for all datasets 
+DATA_ROOT = ['./datasets/DomainNet']
 DATASET_NAMES = ['sketch', 'clipart', 'infograph', 'painting', 'quickdraw', 'real']
 CLASS_SIZES = [345, 345, 345, 345, 345, 345]
 
@@ -209,11 +210,7 @@ def _finetune(model, train_loader, val_loader, opts: options, task_num):
 
 
 if __name__ == "__main__":
-    opts = options()
-    query_expr = opts.args.dataset
-    if opts.args.subsample:
-        query_expr += '.subuniform(' + str(opts.args.subsample) + ')'
-    
+    opts = options()   
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
 
@@ -233,13 +230,17 @@ if __name__ == "__main__":
     train_sets = []
     val_sets = []
     
-    for j, dataset_name in enumerate(DATASET_NAMES):
-        train_path = opts.args.data_root + dataset_name + '/train'
-        test_path = opts.args.data_root + dataset_name + '/test'
+    #dataset_names = os.listdir(opts.args.dataset)
+    num_classes = []
+    #Concatenate all datasets together
+    for j, dataset_name in enumerate(dataset_names):
+        train_path = DATA_ROOT + dataset_name + '/train'
+        test_path = DATA_ROOT + dataset_name + '/test'
         train_dataset = torchvision.datasets.ImageFolder(train_path, transform = train_transform)
         val_dataset = torchvision.datasets.ImageFolder(test_path, transform = test_transform)
         train_dataset.samples = [(x, (label, j)) for x, label in train_dataset.samples]
         val_dataset.samples = [(x, (label, j)) for x, label in val_dataset.samples]
+        print(int(max(train_dataset.targets)+1))
         train_sets.append(train_dataset)
         val_sets.append(val_dataset)
 
@@ -255,7 +256,6 @@ if __name__ == "__main__":
         idx_list_val.append(list(np.arange(len(i)) + curr))
         curr += len(i)
 
-
     train_samp = MultiDomainSampler(idx_list_train, batch_size = opts.args.batch_size, domain_names = np.arange(0,len(train_sets)), random_shuffle = True)
     val_samp = MultiDomainSampler(idx_list_val, batch_size = opts.args.batch_size, domain_names = np.arange(0,len(val_sets)), random_shuffle = True)
 
@@ -269,14 +269,25 @@ if __name__ == "__main__":
     num_classes = int(max(train_dataset.targets)+1)
     print('number of classes:' + str(num_classes))
     print('loading r34')
-    model = mh_resnet34()
+    if opts.args.model_path:
+        print('loading model from: {}'.format(opts.args.model_path))
+        #model_path = opts.args.model_path
+        state_dict = torch.load(model_path)
+        del state_dict['fc.weight']
+        del state_dict['fc.bias']
+
+    else:
+        print('Loading pytorch pretrained model')
+        if not(os.path.exists(opts.args.model_type + '.pth')):
+            get_pretrained_weights(opts.args.model_type)
+            
     z = 'resnet-34.pth'
     state_dict = torch.load(z)
     model.load_state_dict(state_dict, strict = False)
     
 
     CLASS_SIZES = [345, 345, 345, 345, 345, 345]
-    model.set_task_partitions(task_sizes)
+    model.set_task_partitions(CLASS_SIZES)
     device = torch.device(opts.args.gpu)
     model = model.to(device)
     if opts.args.multi_gpu:

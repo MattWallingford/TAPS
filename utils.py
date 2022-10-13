@@ -1,5 +1,6 @@
 import torchvision
 import torch
+from models.taps_net import resnet50, resnet101, resnet34
 class AverageMeter(object):
     """Computes and stores the average and current value"""
     def __init__(self, name, fmt=':f'):
@@ -34,13 +35,6 @@ def select_layers(model, train_layers):
         params += list(layer.parameters())
     return params
 
-
-
-def load_pretrained_model(model_type):
-    "Loads pretrained pytorch model"
-    
-
-
 def get_pretrained_weights(model_type):
     "Creates pytorch .pth file"
     if model_type == 'resnet34':
@@ -49,4 +43,15 @@ def get_pretrained_weights(model_type):
     if model_type == 'resnet50':
         model = torchvision.models.resnet50(pretrained = True)
         torch.save(model.state_dict(), str(model_type) + '.pth')
+
+def load_model(model_type):
+    if model_type == 'vit':
+        model = timm.create_model('vit_base_patch16_224', pretrained=True, num_classes= num_classes)
+    elif model_type == 'resnet34':
+        model = resnet34()
+    elif model_type == 'resnet50':
+        model = resnet50()
+    else:
+        raise Exception('Model type, {}, not an available option. Ending Training run.').format(model_type)
+    return model
     
