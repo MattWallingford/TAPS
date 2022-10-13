@@ -23,16 +23,15 @@ Place the datasets in the datasets folder.
 
 ## Training
 
-### Training Options
+### Train Options
 Command line arguments that you may want to adjust. For the full list of options see options.py. Arguments for experiments are logged in settings.txt in their respective folder. 
 
 ```
-
---
 --lam - The sparsity coefficient. Larger lam results in fewer layers being tuned (λ in the paper).
---dataset - relative path to dataset
---model_type - Network architecture. Currently supports ResNet34 and ResNet50. Support for VIT and all convolution networks coming soon. 
---lr - Learning rate 
+--lr - The learning rate.
+--multi_gpu - Trains the model with data parallel if set to true.
+--dataset - The relative path to the dataset.
+--model_type - Specifies the network architecture. Currently supports ResNet34 and ResNet50. Support for VIT and all convolutional networks coming soon. 
 --model_path - Relative path to a pretrained model. Default option uses the pytorch pretrained models.
 ```
 
@@ -50,5 +49,6 @@ python train_sequential.py --dataset ../datasets/DomainNet/sketch --experiment_n
 ## Evaluation
 
 ### Tensorboard
+
 
 ### Visualizing Modified Layers
