@@ -53,7 +53,7 @@ Command line arguments that you may want to adjust. For the full list of options
 --multi_gpu - Trains the model with data parallel if set to true.
 --dataset - The relative path to the dataset.
 --cropped - Flag that changes the data augmentation for already cropped datasets (include for Stanford cars and CUBS).
---model_type - Specifies the network architecture. Currently supports ResNet34 and ResNet50. 
+--model_type - Specifies the network architecture. Currently supports ResNet34, ResNet50, and ResNet101. 
                 Support for VIT and all convolutional networks coming soon. 
 --model_path - Relative path to a pretrained model. Default option uses the pytorch pretrained models.
 ```
