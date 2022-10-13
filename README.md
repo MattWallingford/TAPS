@@ -20,7 +20,7 @@ Task Adaptive Parameter Sharing (TAPS) is a general method for tuning a base mod
 The 5 datasets comprising ImagetNet-to-Sketch can be download from the [PiggyBack repository](https://github.com/arunmallya/piggyback) at this link: [https://uofi.box.com/s/ixncr3d85guosajywhf7yridszzg5zsq](https://uofi.box.com/s/ixncr3d85guosajywhf7yridszzg5zsq)
 
 **DomainNet**
-The 6 DomainNet datasets can be downloaded from [here](http://ai.bu.edu/M3SDA/). A formatted version can be downloaded [here]. 
+The 6 DomainNet datasets can be downloaded from [here](http://ai.bu.edu/M3SDA/). A formatted version can be downloaded [here]. The structure of the folder should be the following:
 ```
 ├── DomainNet
     ├── sketch
@@ -34,7 +34,6 @@ The 6 DomainNet datasets can be downloaded from [here](http://ai.bu.edu/M3SDA/).
         ├── train
         ├── test
 ```
-
 
 Place the datasets in the datasets folder. If you choose to place them elsewhere use the --dataset flag to point towards the dataset you would like to fine-tune on.
 
