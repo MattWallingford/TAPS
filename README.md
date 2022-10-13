@@ -44,7 +44,7 @@ Place the datasets in the datasets folder. If you choose to place them elsewhere
 ## Training
 
 ### Train Options
-Command line arguments that you may want to adjust. For the full list of options see options.py. Arguments for experiments are logged in settings.txt in their respective folder. 
+Command line arguments that you may want to adjust. For the full list of options see options.py. Arguments for a given experiment are logged in settings.txt of the respective folder.
 
 ```
 --lam - The sparsity coefficient. Larger lam results in fewer layers being tuned (λ in the paper).
