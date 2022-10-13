@@ -21,7 +21,7 @@ The 5 datasets comprising ImagetNet-to-Sketch can be download from the [PiggyBac
 
 **DomainNet**
 The 6 DomainNet datasets can be downloaded from [here](http://ai.bu.edu/M3SDA/). A formatted version can be downloaded [here]. 
-
+```
 ├── DomainNet
     ├── sketch
         ├── train
@@ -32,6 +32,7 @@ The 6 DomainNet datasets can be downloaded from [here](http://ai.bu.edu/M3SDA/).
     ├── clipart
         ├── train
         ├── test
+```
 
 
 Place the datasets in the datasets folder. If you choose to place them elsewhere use the --dataset flag to point towards the dataset you would like to fine-tune on.
