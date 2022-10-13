@@ -26,10 +26,10 @@ Place the datasets in the datasets folder.
 ### Training Options
 ```
 --
---lam - The sparsity coefficient. Larger lam results in fewer layers being tuned (λ in the paper).
---dataset - relative path to dataset
---lr - Learning rate 
---model_path - relative path to pretrained model. Default will use the pytorch pretrained model.
+lam - The sparsity coefficient. Larger lam results in fewer layers being tuned (λ in the paper).
+dataset - relative path to dataset
+lr - Learning rate 
+model_path - relative path to pretrained model. Default will use the pytorch pretrained model.
 ```
 
 ### Sequential TAPS Training
