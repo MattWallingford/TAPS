@@ -46,7 +46,7 @@ python train_sequential.py --dataset ../datasets/DomainNet/sketch --experiment_n
 Fine-tune a pretrained ResNet50 with TAPS on the CUBS dataset. 
 ```
 python train_sequential.py --dataset ../datasets/CUBS_cropped --experiment_name \
-./results/CUBS --multi_gpu --model_type resnet34
+./results/CUBS --multi_gpu --model_type resnet50
 ```
 
 
