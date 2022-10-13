@@ -37,9 +37,14 @@ Command line arguments that you may want to adjust. For the full list of options
 ```
 
 ### Sequential TAPS Training
-Train a pretrained network with TAPS on the sketch dataset. 
+Fine-tune a pretrained ResNet34 with TAPS on the sketch dataset. 
 ```
 python train_sequential.py --dataset ../datasets/DomainNet/sketch --experiment_name ./results/sketch --multi_gpu --model_type resnet34
+```
+
+Fine-tune a pretrained ResNet50 with TAPS on the CUBS dataset. 
+```
+python train_sequential.py --dataset ../datasets/CUBS_cropped --experiment_name ./results/CUBS --multi_gpu --model_type resnet34
 ```
 
 
