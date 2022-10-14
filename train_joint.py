@@ -177,7 +177,7 @@ def _finetune(model, train_loader, val_loader, opts: options, task_num):
             state = {
             'arch': arch,
             'epoch': epoch,
-            'state_dict': model.module.state_dict() if ngpu > 1 else model.state_dict()
+            'state_dict': model.module.state_dict() if opts.args.multi_gpu else model.state_dict()
             }
 
             opt_state = {
@@ -198,22 +198,7 @@ def _finetune(model, train_loader, val_loader, opts: options, task_num):
 
 if __name__ == "__main__":
     opts = options()   
-    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                     std=[0.229, 0.224, 0.225])
-
-    test_transform = transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        normalize,
-    ])
-
-    train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(224),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        normalize,
-    ])
+    train_transform, test_transform = create_transforms(opts)
     train_sets = []
     val_sets = []
     dataset_names = os.listdir(opts.args.dataset)
@@ -221,8 +206,8 @@ if __name__ == "__main__":
 
     #Concatenate all datasets together
     for j, dataset_name in enumerate(dataset_names):
-        train_path = DATA_ROOT + dataset_name + '/train'
-        test_path = DATA_ROOT + dataset_name + '/test'
+        train_path = os.path.join(opts.args.dataset, dataset_name) + '/train'
+        test_path = os.path.join(opts.args.dataset, dataset_name) + '/test'
         print(train_path)
         train_dataset = torchvision.datasets.ImageFolder(train_path, transform = train_transform)
         val_dataset = torchvision.datasets.ImageFolder(test_path, transform = test_transform)
@@ -257,7 +242,7 @@ if __name__ == "__main__":
     model = load_joint_model(opts.args.model_type)
     if opts.args.model_path:
         print('loading model from: {}'.format(opts.args.model_path))
-        #model_path = opts.args.model_path
+        model_path = opts.args.model_path
         state_dict = torch.load(model_path)
         del state_dict['fc.weight']
         del state_dict['fc.bias']
