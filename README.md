@@ -21,7 +21,7 @@ The main packages required are pytorch, torchvision, timm, tqdm, and tensorboard
 The 5 datasets comprising ImagetNet-to-Sketch can be download from the [PiggyBack repository](https://github.com/arunmallya/piggyback) at this link: [https://uofi.box.com/s/ixncr3d85guosajywhf7yridszzg5zsq](https://uofi.box.com/s/ixncr3d85guosajywhf7yridszzg5zsq)
 
 **DomainNet**
-The 6 DomainNet datasets can be downloaded from the [original website](http://ai.bu.edu/M3SDA/). A formatted version can be downloaded [here](https://drive.google.com/file/d/1GYv-I7febM56xF7Jxdzyi1VZuwDbChd1/view?usp=sharing). The structure of the folder should be the following:
+The 6 DomainNet datasets can be downloaded from the [original website](http://ai.bu.edu/M3SDA/). A formatted version can be downloaded [here](https://drive.google.com/file/d/1Eowq0kHzS0MKgo1oglqJIRAC_wDlqWP9/view?usp=sharing). The structure of the folder should be the following:
 ```
 ├── DomainNet
     ├── sketch
