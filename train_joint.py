@@ -2,7 +2,7 @@ from options import options
 import torchvision.models as models
 import os
 from torch.optim.lr_scheduler import StepLR, CosineAnnealingLR
-from utils import AverageMeter, get_pretrained_weights, load_model, load_joint_model
+from utils import AverageMeter, get_pretrained_weights, load_model, load_joint_model, create_transforms
 from tqdm import tqdm
 import torch
 import torch.nn as nn
