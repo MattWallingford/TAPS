@@ -104,7 +104,7 @@ We provide the [VisualizeLayers.ipynb](./VisualizeLayers.ipynb) for viewing whic
 
 ## Coming Soon
 
-* Support for VIT and any convolutional networks. 
+* Support for VIT and arbitrary convolutional networks. 
 * Pretrained models
 * Code to reproduce baseline results
 
