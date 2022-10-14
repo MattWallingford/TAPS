@@ -109,12 +109,11 @@ Coming soon
 ## Citation
 If you found this repository useful, consider giving a 🌟 and citation:
 ```
-@InProceedings{Wallingford_2022_CVPR,
-    author    = {Wallingford, Matthew and Li, Hao and Achille, Alessandro and Ravichandran, Avinash and Fowlkes, Charless and Bhotika, Rahul and Soatto, Stefano},
-    title     = {Task Adaptive Parameter Sharing for Multi-Task Learning},
-    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-    month     = {June},
-    year      = {2022},
-    pages     = {7561-7570}
+@inproceedings{wallingford2022task,
+  title={Task adaptive parameter sharing for multi-task learning},
+  author={Wallingford, Matthew and Li, Hao and Achille, Alessandro and Ravichandran, Avinash and Fowlkes, Charless and Bhotika, Rahul and Soatto, Stefano},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={7561--7570},
+  year={2022}
 }
 ```
