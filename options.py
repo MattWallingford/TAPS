@@ -11,8 +11,6 @@ class options():
         parser.add_argument('--warmup_epochs', default=2, type = float, help = 'Number of epochs before regularizing')
         parser.add_argument('--score_lr', default=.01, type = float, help = '')
         parser.add_argument('--init_path', type = str)
-        parser.add_argument('--pretrained', action = 'store_true')
-        parser.add_argument('--load', action = 'store_true')
         parser.add_argument('--multi_gpu', action = 'store_true')
         parser.add_argument('--train_layers', action = 'store_true')
         parser.add_argument('--Vit', default = False, type = bool)
@@ -25,7 +23,6 @@ class options():
         parser.add_argument('--dtype', type=str, default='fp32')
         parser.add_argument('--optimizer', type=str, default = 'nag')
         parser.add_argument('--lr', '--learning_rate', default = .01, type = float)
-        parser.add_argument('--subsample', default = None, type = float)
         parser.add_argument('--momentum', type = float, default=.9)
         parser.add_argument('--wd', type = float, default=0)
         parser.add_argument('--gpu', type = int, default=0)
@@ -37,6 +34,7 @@ class options():
         parser.add_argument('--input_size', type = int, default=224)
         parser.add_argument('--data-aug', type = str, default='rrcrop')
         parser.add_argument('--model_type', type = str, default='resnet34')
+        parser.add_argument('--cropped', action = 'store_true')
         args = parser.parse_args()
         self.args = args
 
