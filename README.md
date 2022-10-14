@@ -61,13 +61,13 @@ Command line arguments that you may want to adjust. For the full list of options
 ### Sequential TAPS Training
 Fine-tune a pretrained ResNet34 with TAPS on the sketch dataset with multiple gpus. 
 ```
-python train_sequential.py --dataset ../datasets/DomainNet/sketch --experiment_name \
+python train_sequential.py --dataset ./datasets/DomainNet/sketch --experiment_name \
 ./results/DN_sketch --multi_gpu --model_type resnet34
 ```
 
 Fine-tune a pretrained ResNet50 with TAPS on the CUBS dataset with single gpu. 
 ```
-python train_sequential.py --dataset ../datasets/cubs_cropped --experiment_name \
+python train_sequential.py --dataset ./datasets/cubs_cropped --experiment_name \
 ./results/CUBS --model_type resnet50 --lam .1 --cropped
 ```
 
@@ -76,13 +76,13 @@ python train_sequential.py --dataset ../datasets/cubs_cropped --experiment_name 
 ### Joint TAPS Training
 To run the joint version of TAPS, first train a shared network on the 6 DomainNet datasets:
 ```
-python train_joint.py --dataset ../datasets/DomainNet/ --experiment_name \
+python train_joint.py --dataset ./datasets/DomainNet/ --experiment_name \
 ./results/DN_joint --multi_gpu --model_type resnet34
 ```
 
-Next, load the pretrained model from the previous step and run sequential TAPS. This is the efficient variant of joint TAPS which has constant memory requirements during training. To train on the different datasets of DomainNet, change out ```--dataset ../datasets/DomainNet/infograph``` for the path to the other datasets. 
+Next, load the pretrained model from the previous step and run sequential TAPS. This is the efficient variant of joint TAPS which has constant memory requirements during training. To train on the different datasets of DomainNet, change out ```--dataset ./datasets/DomainNet/infograph``` for the path to the other datasets. 
 ```
-python train_sequential.py --dataset ../datasets/DomainNet/infograph --experiment_name \
+python train_sequential.py --dataset ./datasets/DomainNet/infograph --experiment_name \
 ./results/DN_sketch --multi_gpu --model_type resnet34 --model_path ./results/DN_joint/model_best.pth
 ```
 
