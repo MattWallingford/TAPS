@@ -80,9 +80,6 @@ def test_standard_multi(val_loader, model, criterion, device, num_tasks):
     return losses_avg, err
 
 def eval_multi(val_loader, model, criterion, device, task_partitions):
-    '''
-    evaluate the task accuracy and loss
-    '''
     top1 = []
     losses = []
     
@@ -114,7 +111,6 @@ def eval_multi(val_loader, model, criterion, device, task_partitions):
 
 
 def accuracy(output, target, topk=(1,)):
-    """Computes the accuracy over the k top predictions for the specified values of k"""
     with torch.no_grad():
         maxk = max(topk)
         batch_size = target.size(0)
@@ -132,15 +128,6 @@ def accuracy(output, target, topk=(1,)):
 
 
 def _finetune(model, train_loader, val_loader, opts: options, task_num):
-    '''finetune a model on a dataset with given hyperparameters
-
-    :param model: initialized model with cuda device configured
-    :param train_dataset:
-    :param val_dataset:
-    :param kwargs:
-
-    :return: validation result after the final epoch of training
-    '''
 
     arch = opts.args.arch
     optimizer = opts.args.optimizer
@@ -229,9 +216,9 @@ if __name__ == "__main__":
     ])
     train_sets = []
     val_sets = []
-    
     dataset_names = os.listdir(opts.args.dataset)
     num_classes = []
+
     #Concatenate all datasets together
     for j, dataset_name in enumerate(dataset_names):
         train_path = DATA_ROOT + dataset_name + '/train'

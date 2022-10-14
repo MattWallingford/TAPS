@@ -45,10 +45,6 @@ def train(train_loader, model, criterion, optimizer, device, opts, epoch):
     return losses.avg, 100 - top1.avg.item()
 
 def eval(val_loader, model, criterion, device):
-    '''
-    evaluate the initialization, currently including training loss and training error
-    '''
-
     losses = AverageMeter('Loss', ':.4e')
     top1 = AverageMeter('Acc@1', ':6.2f')
     model.eval()
@@ -68,7 +64,6 @@ def eval(val_loader, model, criterion, device):
     return losses.avg, 100 - top1.avg.item()
 
 def accuracy(output, target, topk=(1,)):
-    """Computes the accuracy over the k top predictions for the specified values of k"""
     with torch.no_grad():
         maxk = max(topk)
         batch_size = target.size(0)
@@ -85,15 +80,6 @@ def accuracy(output, target, topk=(1,)):
 
 
 def _finetune(model, train_loader, val_loader, opts: options):
-    '''finetune a model on a dataset with given hyperparameters
-
-    :param model: initialized model with cuda device configured
-    :param train_dataset:
-    :param val_dataset:
-    :param kwargs:
-
-    :return: validation result after the final epoch of training
-    '''
     arch = opts.args.arch
     optimizer = opts.args.optimizer
     
