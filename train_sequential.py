@@ -29,7 +29,8 @@ def train(train_loader, model, criterion, optimizer, device, opts, epoch):
         # compute output
         output = model(x)
         if epoch > opts.args.warmup_epochs:
-            loss = opts.args.lam * sum([abs(i) for i in model.module.getIndicators()])/52 + criterion(output, label)
+            indicators = model.module.getIndicators() if opts.args.multi_gpu else model.getIndicators()
+            loss = opts.args.lam * sum([abs(i) for i in indicators])/52 + criterion(output, label)
         else:
             loss = criterion(output, label)
         # measure accuracy and record loss
@@ -133,8 +134,10 @@ def _finetune(model, train_loader, val_loader, opts: options):
             }
             val_path = os.path.join(experiment_path, 'val_err')
             np.save(val_path, val_errs)
+        
+        indicators = model.module.getIndicators() if opts.args.multi_gpu else model.getIndicators()
         scheduler.step()
-        writer.add_scalar('Percent Weights Activated', torch.mean((torch.tensor(model.module.getIndicators()) >= .1).float()), epoch)
+        writer.add_scalar('Percent Weights Activated', torch.mean((torch.tensor(indicators) >= .1).float()), epoch)
         writer.add_scalar('Learning Rate', scheduler.get_last_lr()[0], epoch)
         writer.add_scalar('Training Loss', train_loss, epoch)
         writer.add_scalar('Training Error', train_err, epoch)
