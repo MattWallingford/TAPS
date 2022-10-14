@@ -117,3 +117,5 @@ If you found this repository useful, consider giving a 🌟 and citation:
   year={2022}
 }
 ```
+
+For questions regarding this repository email mcw244 at cs dot washington dot edu
