@@ -7,7 +7,7 @@ Unofficial Pytorch implementation of **Task Adaptive Parameter Sharing** (CVPR 2
 <img src="./assets/teaser.jpg" width="512"/>
 </p>
 
-Task Adaptive Parameter Sharing (TAPS) is a general method for tuning a base model to a new task by adaptively modifying a small, task-specific subset of layers. This enables multi-task learning while minimizing resources used and competition between tasks. TAPS solves a joint optimization problem which determines which layers to share with the base model and the value of the task-specific weights.
+Task Adaptive Parameter Sharing (TAPS) is a general method for tuning a base model to a new task by adaptively modifying a small, task-specific subset of layers. This enables multi-task learning while minimizing resources used and competition between tasks. TAPS solves a joint optimization problem which finds which layers to share with the base model and the value of the task-specific weights. TAPS is agnostic to the model architecture and requires minor changes to the training scheme
 
 
 ## Installation
@@ -80,7 +80,7 @@ python train_joint.py --dataset ../datasets/DomainNet/ --experiment_name \
 ./results/DN_joint --multi_gpu --model_type resnet34
 ```
 
-Next, load the pretrained model from the previous step and run sequential TAPS. This is the efficient variant of joint TAPS which has constant memory requirements during training. To train on all 6 DomainNet datasets, change out ```--dataset ../datasets/DomainNet/infograph``` for the path to the other datasets. 
+Next, load the pretrained model from the previous step and run sequential TAPS. This is the efficient variant of joint TAPS which has constant memory requirements during training. To train on different datasets from DomainNet, change out ```--dataset ../datasets/DomainNet/infograph``` for the path to the other datasets. 
 ```
 python train_sequential.py --dataset ../datasets/DomainNet/infograph --experiment_name \
 ./results/DN_sketch --multi_gpu --model_type resnet34 --model_path ./results/DN_joint/model_best.pth
