@@ -21,7 +21,7 @@ The main packages required are pytorch, torchvision, timm, tqdm, and tensorboard
 The 5 datasets comprising ImagetNet-to-Sketch can be download from the [PiggyBack repository](https://github.com/arunmallya/piggyback) at this link: [https://uofi.box.com/s/ixncr3d85guosajywhf7yridszzg5zsq](https://uofi.box.com/s/ixncr3d85guosajywhf7yridszzg5zsq)
 
 **DomainNet**
-The 6 DomainNet datasets can be downloaded from the [original website](http://ai.bu.edu/M3SDA/). A formatted version can be downloaded [here](https://drive.google.com/file/d/1GYv-I7febM56xF7Jxdzyi1VZuwDbChd1/view?usp=sharing). The structure of the folder should be the following:
+The 6 DomainNet datasets can be downloaded from the [original website](http://ai.bu.edu/M3SDA/). A formatted version can be downloaded [here](https://drive.google.com/file/d/1Eowq0kHzS0MKgo1oglqJIRAC_wDlqWP9/view?usp=sharing). The structure of the folder should be the following:
 ```
 ├── DomainNet
     ├── sketch
@@ -74,13 +74,13 @@ python train_sequential.py --dataset ../datasets/cubs_cropped --experiment_name 
 
 
 ### Joint TAPS Training
-To run the joint version of TAPS, first train a shared network on the 6 datasets:
+To run the joint version of TAPS, first train a shared network on the 6 DomainNet datasets:
 ```
 python train_joint.py --dataset ../datasets/DomainNet/ --experiment_name \
 ./results/DN_joint --multi_gpu --model_type resnet34
 ```
 
-Next, load the pretrained model from the previous step and run sequential TAPS. This is the efficient variant of joint TAPS which has constant memory requirements during training. To train on different datasets from DomainNet, change out ```--dataset ../datasets/DomainNet/infograph``` for the path to the other datasets. 
+Next, load the pretrained model from the previous step and run sequential TAPS. This is the efficient variant of joint TAPS which has constant memory requirements during training. To train on the different datasets of DomainNet, change out ```--dataset ../datasets/DomainNet/infograph``` for the path to the other datasets. 
 ```
 python train_sequential.py --dataset ../datasets/DomainNet/infograph --experiment_name \
 ./results/DN_sketch --multi_gpu --model_type resnet34 --model_path ./results/DN_joint/model_best.pth
@@ -102,3 +102,20 @@ We provide the [VisualizeLayers.ipynb](./VisualizeLayers.ipynb) for viewing whic
 </p>
 
 
+## Pretrained Models
+
+Coming soon
+
+## Citation
+If you found this repository useful, consider giving a 🌟 and citation:
+```
+@inproceedings{wallingford2022task,
+  title={Task adaptive parameter sharing for multi-task learning},
+  author={Wallingford, Matthew and Li, Hao and Achille, Alessandro and Ravichandran, Avinash and Fowlkes, Charless and Bhotika, Rahul and Soatto, Stefano},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={7561--7570},
+  year={2022}
+}
+```
+
+For questions regarding this repository email mcw244 at cs dot washington dot edu
