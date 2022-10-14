@@ -102,9 +102,13 @@ We provide the [VisualizeLayers.ipynb](./VisualizeLayers.ipynb) for viewing whic
 </p>
 
 
-## Pretrained Models
+## Coming Soon
 
-Coming soon
+* Support for VIT and any convolutional networks. 
+* Pretrained models
+* Code to reproduce baseline results
+
+
 
 ## Citation
 If you found this repository useful, consider giving a 🌟 and citation:
