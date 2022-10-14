@@ -13,7 +13,8 @@ Task Adaptive Parameter Sharing (TAPS) is a general method for tuning a base mod
 ## Installation
 
 ### Requirements
-
+Run ```pip install -r requirements.txt```.
+The main packages required are pytorch, torchvision, timm, tqdm, and tensorboard.
 ### Datasets
 
 **ImageNet-to-Sketch**
@@ -51,8 +52,8 @@ Command line arguments that you may want to adjust. For the full list of options
 --lr - The learning rate.
 --multi_gpu - Trains the model with data parallel if set to true.
 --dataset - The relative path to the dataset.
---cropped - Flag that changes the data augmentation for already cropped datasets (Include for Stanford cars and CUBS).
---model_type - Specifies the network architecture. Currently supports ResNet34 and ResNet50. 
+--cropped - Flag that changes the data augmentation for already cropped datasets (include for Stanford cars and CUBS).
+--model_type - Specifies the network architecture. Currently supports ResNet34, ResNet50, and ResNet101. 
                 Support for VIT and all convolutional networks coming soon. 
 --model_path - Relative path to a pretrained model. Default option uses the pytorch pretrained models.
 ```
@@ -66,14 +67,24 @@ python train_sequential.py --dataset ../datasets/DomainNet/sketch --experiment_n
 
 Fine-tune a pretrained ResNet50 with TAPS on the CUBS dataset with single gpu. 
 ```
-python train_sequential.py --dataset ../datasets/CUBS_cropped --experiment_name \
+python train_sequential.py --dataset ../datasets/cubs_cropped --experiment_name \
 ./results/CUBS --model_type resnet50 --lam .1 --cropped
 ```
 
 
 
 ### Joint TAPS Training
+To run the joint version of TAPS, first train a shared network on the 6 datasets:
+```
+python train_joint.py --dataset ../datasets/DomainNet/ --experiment_name \
+./results/DN_joint --multi_gpu --model_type resnet34
+```
 
+Next, load the pretrained model from the previous step and run sequential TAPS. This is the efficient variant of joint TAPS which has constant memory requirements during training. To train on all 6 DomainNet datasets, change out ```--dataset ../datasets/DomainNet/infograph``` for the path to the other datasets. 
+```
+python train_sequential.py --dataset ../datasets/DomainNet/infograph --experiment_name \
+./results/DN_sketch --multi_gpu --model_type resnet34 --model_path ./results/DN_joint/model_best.pth
+```
 
 ## Evaluation
 
@@ -85,4 +96,9 @@ We log validation error/training loss/training error/percentage of layers tuned.
 
 ### Visualizing Modified Layers
 
-We provide the [visualize_taps.ipynb]() for viewing which layers of a TAP trained model were adapted.
+We provide the [VisualizeLayers.ipynb](./VisualizeLayers.ipynb) for viewing which layers of a TAP trained model were adapted.
+<p align="center">
+<img src="./assets/heatmap.png" width="1024"/>
+</p>
+
+
