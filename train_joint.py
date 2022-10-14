@@ -10,7 +10,7 @@ import torchvision.transforms as transforms
 from torch.utils.tensorboard import SummaryWriter
 import numpy as np
 from models.multihead_net import resnet34
-from dataloaders.DomainNet import MultiDomainSampler
+from samplers.DomainNet import MultiDomainSampler
 import torchvision
 
 #Names and number of classes for all datasets 
