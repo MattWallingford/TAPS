@@ -96,7 +96,7 @@ We log validation error/training loss/training error/percentage of layers tuned.
 
 ### Visualizing Modified Layers
 
-We provide the [VisualizeLayers.ipynb](./VisualizeLayers.ipynb) for viewing which layers of a TAP trained model were adapted.
+We provide the [VisualizeLayers.ipynb](./VisualizeLayers.ipynb) for viewing which layers of a TAP trained model were adapted and calculating percentage of parameters added.
 <p align="center">
 <img src="./assets/heatmap.png" width="1024"/>
 </p>
