@@ -7,7 +7,7 @@ Unofficial Pytorch implementation of **Task Adaptive Parameter Sharing** (CVPR 2
 <img src="./assets/teaser.jpg" width="512"/>
 </p>
 
-Task Adaptive Parameter Sharing (TAPS) is a general method for tuning a base model to a new task by adaptively modifying a small, task-specific subset of layers. This enables multi-task learning while minimizing resources used and competition between tasks. TAPS solves a joint optimization problem which finds which layers to share with the base model and the value of the task-specific weights. TAPS is agnostic to the model architecture and requires minor changes to the training scheme
+Task Adaptive Parameter Sharing (TAPS) is a general method for tuning a base model to a new task by adaptively modifying a small, task-specific subset of layers. This enables multi-task learning while minimizing resources used and competition between tasks. TAPS solves a joint optimization problem which finds which layers to share with the base model and the value of the task-specific weights. TAPS is agnostic to model architecture and requires minor changes to the training scheme.
 
 
 ## Installation
